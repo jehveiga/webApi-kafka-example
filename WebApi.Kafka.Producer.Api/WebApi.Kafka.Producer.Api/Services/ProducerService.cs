@@ -1,4 +1,6 @@
 ﻿using Confluent.Kafka;
+using System.Text.Json;
+using WebApi.Kafka.Producer.Api.Models;
 
 namespace WebApi.Kafka.Producer.Api.Services
 {
@@ -22,7 +24,7 @@ namespace WebApi.Kafka.Producer.Api.Services
             };
         }
 
-        public async Task<string> SendMessage(string message)
+        public async Task<string> SendMessage(PessoaModel pessoa)
         {
             _logger.LogInformation("Iniciando o serviço de envio de mensagem");
 
@@ -32,6 +34,9 @@ namespace WebApi.Kafka.Producer.Api.Services
             {
                 using (var producer = new ProducerBuilder<Null, string>(_producerConfig).Build())
                 {
+                    // Serializando o objeto Pessoa em formato string JSON
+                    var message = JsonSerializer.Serialize(pessoa);
+
                     var result = await producer.ProduceAsync(topic: topic, message: new() { Value = message });
 
                     var msgEnviada = $"{result.Status.ToString()} - {message}";

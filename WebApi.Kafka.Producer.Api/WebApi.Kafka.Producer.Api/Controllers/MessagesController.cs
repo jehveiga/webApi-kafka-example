@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Kafka.Producer.Api.Models;
 using WebApi.Kafka.Producer.Api.Services;
 
 namespace WebApi.Kafka.Producer.Api.Controllers
@@ -17,9 +18,9 @@ namespace WebApi.Kafka.Producer.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(string message) 
+        public async Task<IActionResult> Post(PessoaModel model) 
         {
-            var messageSended = await _producerService.SendMessage(message);
+            var messageSended = await _producerService.SendMessage(model);
 
             return Ok(messageSended);
         }

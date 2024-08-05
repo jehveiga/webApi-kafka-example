@@ -1,7 +1,9 @@
 ﻿using App.Kafka.Consumer.Console.ConfigKafka;
+using App.Kafka.Consumer.Console.Models;
 using Confluent.Kafka;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace App.Kafka.Consumer.Console.Services
 {
@@ -40,7 +42,8 @@ namespace App.Kafka.Consumer.Console.Services
                 {
 
                     var result = _consumer.Consume(stoppingToken);
-                    _logger.LogInformation($"GroupId: {ParametersConfig.GROUP_ID} Mensagem: {result.Message.Value}");
+                    var pessoa = JsonSerializer.Deserialize<PessoaModel>(result.Message.Value);
+                    _logger.LogInformation($"GroupId: {ParametersConfig.GROUP_ID} - {pessoa.ToString()}");
                 });
             }
         }
