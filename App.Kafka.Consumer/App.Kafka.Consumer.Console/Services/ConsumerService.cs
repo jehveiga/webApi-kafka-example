@@ -22,7 +22,9 @@ namespace App.Kafka.Consumer.Console.Services
                 // Define que a mensagem quando for consumida foi lida
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
-            
+
+            // Inicializando a classe consumer com as configurações passada acima
+            _consumer = new ConsumerBuilder<Ignore, string>(_consumerConfig).Build();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
