@@ -50,7 +50,7 @@ namespace App.Kafka.Consumer.Console.Services
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _consumer.Unsubscribe();
+            _consumer.Close();
             _logger.LogInformation($"Aplicação parou, conexão fechada");
             return Task.CompletedTask;
         }
